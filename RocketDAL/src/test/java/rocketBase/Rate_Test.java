@@ -4,19 +4,36 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import rocketDomain.RateDomainModel;
 
 public class Rate_Test {
 
+	static RateDomainModel uno;
+	static RateDomainModel dos;
+	static RateDAL dal;
 	
-	//TODO - RocketDAL rate_test
-	//		Check to see if a known credit score returns a known interest rate
+	@BeforeClass
+	public static void setup(){
+		RateDomainModel one = new RateDomainModel();
+		one.setdInterestRate(.02);
+		one.setiMinCreditScore(600);
+		one.setiRateID(1);
+		RateDomainModel two = new RateDomainModel();
+		two.setdInterestRate(.03);
+		two.setiMinCreditScore(700);
+		two.setiRateID(2);
+		RateDAL DAL = new RateDAL();
+		DAL.addRateDomainModel(one);
+		DAL.addRateDomainModel(two);
+	}
 	
-	//TODO - RocketDAL rate_test
-	//		Check to see if a RateException is thrown if there are no rates for a given
-	//		credit score
-
+	@Test
+	public void testGetAllRates(){
+		ArrayList<RateDomainModel> rates = RateDAL.getAllRates();
+		assertNotNull(rates);
+	}
 
 }

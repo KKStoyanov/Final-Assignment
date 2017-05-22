@@ -29,8 +29,8 @@ public class RateDAL {
 			//			probably not a bad idea to sort the results...  Add an OrderBy
 			//			example can be found here:
 			//  		http://www.tutorialspoint.com/hibernate/hibernate_query_language.htm			
-			//List lstRates = session.createQuery("FROM RateDomainModel r Order By r.iMinCreditScore").list();
-			List lstRates = session.createQuery("FROM RateDomainModel").list();
+			List lstRates = session.createQuery("FROM RateDomainModel r Order By r.iMinCreditScore").list();
+			//List lstRates = session.createQuery("FROM RateDomainModel").list();
 
 			for (Iterator iterator = lstRates.iterator(); iterator.hasNext();) {
 				RateDomainModel rte = (RateDomainModel) iterator.next();
@@ -46,6 +46,24 @@ public class RateDAL {
 			session.close();
 		}
 		return alRates;
+	}
+	
+	public static RateDomainModel addRateDomainModel(RateDomainModel rate) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction tx = null;
+ 
+		try {
+			tx = session.beginTransaction();
+			session.save(rate);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return rate;
 	}
 
 }

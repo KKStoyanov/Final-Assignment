@@ -1,21 +1,28 @@
 package rocket.app.view;
 
-import eNums.eAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import rocket.app.MainApp;
-import rocketCode.Action;
 import rocketData.LoanRequest;
 
 public class MortgageController {
 
 	@FXML TextField txtCreditScore;
 	@FXML TextField txtMortgageAmt;
-	
+	@FXML Label creditScoreLabel;
+	@FXML Label termLabel;
+	@FXML Label incomeLabel;
+	@FXML TextField txtIncome;
+	@FXML TextField txtExpenses;
+	@FXML TextField HouseCost;
+	@FXML ComboBox cmbTerm;
+	@FXML Label MortgagePaymentLabel;
 	private TextField txtNew;
 	
 	private MainApp mainApp;

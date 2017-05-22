@@ -2,6 +2,7 @@ package rocketServer;
 
 import java.io.IOException;
 
+import exceptions.RateException;
 import netgame.common.Hub;
 import rocketBase.RateBLL;
 import rocketData.LoanRequest;
@@ -23,6 +24,17 @@ public class RocketHub extends Hub {
 			resetOutput();
 			
 			LoanRequest lq = (LoanRequest) message;
+			
+			try {
+				RateBLL.getRate(lq.getiCreditScore());
+			} catch (RateException e) {
+				e.printStackTrace();
+			}
+			if(message instanceof RateException){
+				System.out.println("The credit score is not in the table.");
+			}
+			else
+				lq.setdPayment(RateBLL.getPayment(lq.getdRate(), lq.getiTerm(), lq.getdAmount(), lq.getiDownPayment(), false));
 			
 			//	TODO - RocketHub.messageReceived
 

@@ -1,6 +1,9 @@
 package netgame.common;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.TreeMap;
@@ -128,8 +131,9 @@ public class Hub {
      * behavior will often be overridden in subclasses.
      * @param playerID  The ID number of the player who sent the message.
      * @param message The message that was received from the player.
+     * @throws RateException 
      */
-    protected void messageReceived(int playerID, Object message) {
+    protected void messageReceived(int playerID, Object message){
         sendToAll(new ForwardedMessage(playerID,message));
     }
     

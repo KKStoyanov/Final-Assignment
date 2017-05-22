@@ -11,9 +11,11 @@ public class RateBLL {
 
 	private static RateDAL _RateDAL = new RateDAL();
 	
-	static double getRate(int GivenCreditScore) throws RateException 
+	public static double getRate(int GivenCreditScore) throws RateException 
 	{
+		boolean aRate = false;
 		double dInterestRate = 0;
+		RateDomainModel rateDM = null;
 		
 		//TODO - RocketBLL RateBLL.getRate - make sure you throw any exception
 		
@@ -28,7 +30,19 @@ public class RateBLL {
 		//			obviously this should be changed to return the determined rate
 		
 		ArrayList<RateDomainModel> rates = RateDAL.getAllRates();
+		for(RateDomainModel rdm : rates){
+			rateDM = rdm;
+			if(rateDM.getiMinCreditScore() == GivenCreditScore){
+				aRate = true;
+				dInterestRate = rateDM.getdInterestRate();
+			}
+			else
+				aRate = false;
+		}
 		
+		if(aRate == false){
+			throw new RateException(rateDM);
+		}else
 
 		//TODO: Filter the ArrayList...  look for the correct rate for the given credit score.
 		//	Easiest way is to apply a filter using a Lambda function.
@@ -39,20 +53,31 @@ public class RateBLL {
 		return dInterestRate;
 		
 		
+	}	
+	
+	
+	
+	
+
+	
+	public static RateDAL get_RateDAL() {
+		return _RateDAL;
 	}
-	
-	
-	
-	
-	
-	
-	
-	//TODO - RocketBLL RateBLL.getPayment 
-	//		how to use:
-	//		https://poi.apache.org/apidocs/org/apache/poi/ss/formula/functions/FinanceLib.html
-	
+
+
+
+
+
+	public static void set_RateDAL(RateDAL _RateDAL) {
+		RateBLL._RateDAL = _RateDAL;
+	}
+
+
+
+
+
 	public static double getPayment(double r, double n, double p, double f, boolean t)
 	{		
-		return FinanceLib.pmt(r, n, p, f, t);
+		return FinanceLib.pmt(r, n, p, f, t) * -1;
 	}
 }
